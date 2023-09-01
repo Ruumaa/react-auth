@@ -1,0 +1,29 @@
+GET http://localhost:5000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJQYW5qdWwiLCJlbWFpbCI6InBhbmp1bEBnbWFpbC5jb20iLCJpYXQiOjE2OTM1NDE2MTQsImV4cCI6MTY5MzU0MTYyOX0.IWwj6i2mYo-IPKCJoJGlDs1azJQK5sDqEMxSLeY4xx4
+###
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name": "Panjul",
+    "email": "panjul@gmail.com",
+    "password": "user",
+    "confPassword": "user"
+
+}
+
+###
+
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "panjul@gmail.com",
+    "password": "user"
+}
+
+###
+GET http://localhost:5000/token
+
+###
+DELETE http://localhost:5000/logout
