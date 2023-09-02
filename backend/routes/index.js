@@ -15,9 +15,9 @@ router.get("/token", refreshToken);
 router.delete("/logout", Logout);
 
 //Book
-router.get("/books", getBooks);
-router.post("/books", upload.single("photo"), addBook);
-router.put("/books/:id", upload.single("photo"), updateBook);
-router.delete("/books/:id", deleteBook)
+router.get("/books",verifyToken, getBooks);
+router.post("/books", verifyToken, upload.single("photo"), addBook);
+router.put("/books/:id", verifyToken, upload.single("photo"), updateBook);
+router.delete("/books/:id",verifyToken, deleteBook)
 
 export default router;

@@ -1,4 +1,12 @@
-import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Text,
+  Link as ChakraLink,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -14,8 +22,15 @@ const Login = () => {
     try {
       await axios.post("http://localhost:5000/login", {
         email,
-        password
-      }); 
+        password,
+      });
+      Swal.fire({
+        icon: "success",
+        title: "Login Success",
+        text: "Login Sucsessfully!",
+        showConfirmButton: false,
+        timer: 1500
+      });
       navigate("/dashboard");
     } catch (error) {
       if (error.response) {
@@ -27,6 +42,9 @@ const Login = () => {
       }
     }
   };
+  const goToRegister =() => {
+    navigate('/register')
+  }
   return (
     <>
       <Box
@@ -45,12 +63,20 @@ const Login = () => {
           bg="white"
           textAlign="center"
         >
+          <Text
+            fontSize="4xl"
+            fontWeight="bold"
+            mb={8}
+            mt={-5}
+            textAlign="start"
+          >
+            Login
+          </Text>
           <form onSubmit={handleAuth}>
             <FormControl id="email" isRequired>
               <FormLabel>Email Address</FormLabel>
               <Input
                 type="email"
-                name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               ></Input>
@@ -60,7 +86,6 @@ const Login = () => {
               <FormLabel>Password</FormLabel>
               <Input
                 type="password"
-                name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               ></Input>
@@ -68,16 +93,23 @@ const Login = () => {
             <Button
               colorScheme="teal"
               type="submit"
-              mt={4}
-              fontSize="20px"
+              mt={5}
+              fontSize="15px"
               padding="20px 0"
-              width="75%"
-
-              //   onClick={handleSubmit}
+              width="50%"
             >
-              Log in
+              Let's go!
             </Button>
           </form>
+              <ChakraLink
+                to="/register"
+                fontSize="2xs"
+                textDecoration="underline"
+                color="blue.500"
+                onClick={goToRegister}
+              >
+                Sign Up
+              </ChakraLink>
         </Box>
       </Box>
     </>

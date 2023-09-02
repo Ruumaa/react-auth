@@ -9,7 +9,6 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
-//   const [msg, setMsg] = useState("");
   let navigate = useNavigate(); //untuk melakukan redirect
 
   const handleRegister = async (e) => {
@@ -21,7 +20,14 @@ const Register = () => {
         password,
         confPassword,
       });
-      
+      Swal.fire({
+        icon: "success",
+        title: "Register Success",
+        text: "Register Sucsessfully!",
+        showConfirmButton: false,
+        timer: 1500
+      });
+
       navigate("/"); //redirect ke hal. login
     } catch (error) {
       if (error.response) {
@@ -57,7 +63,6 @@ const Register = () => {
               <FormLabel>Name</FormLabel>
               <Input
                 type="text"
-                name="name"
                 placeholder="Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -68,7 +73,6 @@ const Register = () => {
               <FormLabel>Email</FormLabel>
               <Input
                 type="email"
-                name="email"
                 placeholder="megachan@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -79,7 +83,6 @@ const Register = () => {
               <FormLabel>Password</FormLabel>
               <Input
                 type="password"
-                name="password"
                 placeholder="******"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -89,13 +92,11 @@ const Register = () => {
               <FormLabel>Confirm Password</FormLabel>
               <Input
                 type="password"
-                name="password"
                 placeholder="******"
                 value={confPassword}
                 onChange={(e) => setConfPassword(e.target.value)}
               ></Input>
             </FormControl>
-
             <Button
               colorScheme="teal"
               type="submit"
@@ -103,8 +104,6 @@ const Register = () => {
               fontSize="20px"
               padding="20px 0"
               width="75%"
-
-              //   onClick={handleSubmit}
             >
               Register
             </Button>
