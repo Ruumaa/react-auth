@@ -2,28 +2,35 @@ import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
-  const [msg, setMsg] = useState("");
+//   const [msg, setMsg] = useState("");
   let navigate = useNavigate(); //untuk melakukan redirect
 
   const handleRegister = async (e) => {
     e.preventDefault(); //agar tidak auto reload
     try {
-      await axios.post("http://localhost/5000/users", {
+      await axios.post("http://localhost:5000/users", {
         name,
         email,
         password,
         confPassword,
       });
+      
       navigate("/"); //redirect ke hal. login
     } catch (error) {
       if (error.response) {
-        console.log(error.response.data);
+        // Menampilkan pesan peringatan menggunakan SweetAlert2
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.msg, // Menggunakan pesan kesalahan dari respons server
+        });
       }
     }
   };

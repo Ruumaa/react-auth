@@ -16,7 +16,7 @@ export const getUsers = async (req, res) => {
 export const Register = async (req, res) => {
   const { name, email, password, confPassword } = req.body;
   if (password !== confPassword)
-    return res.status(400).json({ msg: "Password tidak cocok!" });
+    return res.status(400).json({ msg: "Password and Confirm Password should same!" });
   //menghasilkan salt dari bcrypt
   const salt = await bcrypt.genSalt();
   //enkripsi password menggunakan bcrypt dengan salt diatas
@@ -27,7 +27,7 @@ export const Register = async (req, res) => {
       email,
       password: hashPassword,
     });
-    res.json({ msg: "Register berhasil" });
+    res.json({ msg: "Registration success!" });
   } catch (err) {
     console.error(err);
   }
@@ -40,12 +40,15 @@ export const Login = async (req, res) => {
         email: req.body.email,
       },
     });
-    if (!user) return res.status(404).json({ msg: "Email tidakk ditemukan!" });
+    if (user.length === 0) {
+      return res.status(404).json({ msg: "Email not found" });
+    }
     //perbandingan password yg diberikan dengan yg didatabase, bcrypt.compare adalah metode untuk membandingkan password
     //menerima 2 argumen, password yg dimasukkan user dan hash password di db
     const match = await bcrypt.compare(req.body.password, user[0].password);
-    console.log(match); //hasilnya true or false
-    if (!match) return res.status(400).json({ msg: "Wrong Password" });
+    if (!match) {
+      return res.status(400).json({ msg: "Wrong Password" });
+    }
     //jika berhasil buat token akses dan refresh
     const userId = user[0].id;
     const name = user[0].name;
@@ -98,11 +101,11 @@ export const Logout = async (req, res) => {
   });
   if (!user[0]) return res.sendStatus(204);
   const userId = user[0].id;
-  //memperbarui refresh token menjadi null 
+  //memperbarui refresh token menjadi null
   await Users.update(
     { refreshToken: null },
     {
-        //berdasarkan id
+      //berdasarkan id
       where: {
         id: userId,
       },
